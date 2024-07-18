@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(MaterialApp(
+    home: UjianPage(),
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+      primaryColor: Colors.blue[900],
+    ),
+  ));
+}
+
 class UjianPage extends StatefulWidget {
   @override
   _UjianPageState createState() => _UjianPageState();
@@ -7,9 +17,6 @@ class UjianPage extends StatefulWidget {
 
 class _UjianPageState extends State<UjianPage> {
   int _jumlahUjian = 0; // Variabel untuk menyimpan jumlah ujian
-  List<Map<String, String>> _listJadwalUjian = []; // List untuk menyimpan data jadwal ujian
-
-  // Controller untuk mengelola input pada TextFormField
   List<TextEditingController> _namaMataKuliahControllers = [];
   List<TextEditingController> _tanggalUjianControllers = [];
   List<TextEditingController> _lokasiUjianControllers = [];
@@ -18,7 +25,6 @@ class _UjianPageState extends State<UjianPage> {
 
   @override
   void dispose() {
-    // Clean up controller ketika widget di dispose
     for (var controller in _namaMataKuliahControllers) {
       controller.dispose();
     }
@@ -39,6 +45,7 @@ class _UjianPageState extends State<UjianPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Form Ujian'),
+        backgroundColor: Colors.blue[900],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -49,7 +56,7 @@ class _UjianPageState extends State<UjianPage> {
               Container(
                 padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  color: Colors.blue[50], // Warna latar belakang biru muda
+                  color: Colors.blue[50],
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Column(
@@ -60,6 +67,7 @@ class _UjianPageState extends State<UjianPage> {
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
+                        color: Colors.blue[900],
                       ),
                     ),
                     SizedBox(height: 10.0),
@@ -83,6 +91,7 @@ class _UjianPageState extends State<UjianPage> {
                       decoration: InputDecoration(
                         labelText: 'Jumlah Ujian',
                         border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.format_list_numbered, color: Colors.blue[900]),
                       ),
                     ),
                   ],
@@ -94,6 +103,7 @@ class _UjianPageState extends State<UjianPage> {
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.blue[900],
                 ),
               ),
               SizedBox(height: 10.0),
@@ -105,7 +115,7 @@ class _UjianPageState extends State<UjianPage> {
                       padding: EdgeInsets.all(10.0),
                       margin: EdgeInsets.only(bottom: 10.0),
                       decoration: BoxDecoration(
-                        color: Colors.blue[50], // Warna latar belakang biru muda
+                        color: Colors.blue[50],
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Column(
@@ -116,6 +126,7 @@ class _UjianPageState extends State<UjianPage> {
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
+                              color: Colors.blue[900],
                             ),
                           ),
                           SizedBox(height: 10.0),
@@ -124,6 +135,7 @@ class _UjianPageState extends State<UjianPage> {
                             decoration: InputDecoration(
                               labelText: 'Nama Mata Kuliah',
                               border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.book, color: Colors.blue[900]),
                             ),
                           ),
                           SizedBox(height: 10.0),
@@ -137,7 +149,7 @@ class _UjianPageState extends State<UjianPage> {
                                 decoration: InputDecoration(
                                   labelText: 'Tanggal Ujian',
                                   border: OutlineInputBorder(),
-                                  suffixIcon: Icon(Icons.calendar_today),
+                                  prefixIcon: Icon(Icons.calendar_today, color: Colors.blue[900]),
                                 ),
                               ),
                             ),
@@ -148,6 +160,7 @@ class _UjianPageState extends State<UjianPage> {
                             decoration: InputDecoration(
                               labelText: 'Lokasi Ujian',
                               border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.location_on, color: Colors.blue[900]),
                             ),
                           ),
                           SizedBox(height: 10.0),
@@ -156,6 +169,7 @@ class _UjianPageState extends State<UjianPage> {
                             decoration: InputDecoration(
                               labelText: 'Nama Dosen',
                               border: OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.person, color: Colors.blue[900]),
                             ),
                           ),
                           SizedBox(height: 20.0),
@@ -165,59 +179,60 @@ class _UjianPageState extends State<UjianPage> {
                   },
                 ),
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
-                  // Lakukan sesuatu ketika tombol "Simpan" ditekan
-                  // Contoh: menyimpan data ke database atau melakukan validasi
-                  // Anda dapat mengakses data yang diinput melalui controllers
-                  setState(() {
-                    _listJadwalUjian.clear();
-                    for (int i = 0; i < _jumlahUjian; i++) {
-                      _listJadwalUjian.add({
-                        'Nama Mata Kuliah': _namaMataKuliahControllers[i].text,
-                        'Tanggal Ujian': _tanggalUjianControllers[i].text,
-                        'Lokasi Ujian': _lokasiUjianControllers[i].text,
-                        'Nama Dosen': _namaDosenControllers[i].text,
-                      });
-                    }
-                  });
+                  List<Map<String, String>> jadwalUjian = [];
+                  for (int i = 0; i < _jumlahUjian; i++) {
+                    jadwalUjian.add({
+                      'Nama Mata Kuliah': _namaMataKuliahControllers[i].text,
+                      'Tanggal Ujian': _tanggalUjianControllers[i].text,
+                      'Lokasi Ujian': _lokasiUjianControllers[i].text,
+                      'Nama Dosen': _namaDosenControllers[i].text,
+                    });
+                  }
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Data Ujian'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: jadwalUjian.map((ujian) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Nama Mata Kuliah: ${ujian['Nama Mata Kuliah']}'),
+                                  Text('Tanggal Ujian: ${ujian['Tanggal Ujian']}'),
+                                  Text('Lokasi Ujian: ${ujian['Lokasi Ujian']}'),
+                                  Text('Nama Dosen: ${ujian['Nama Dosen']}'),
+                                  Divider(),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Tutup'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
-                child: Text(
-                  'Simpan',
+                icon: Icon(Icons.add, color: Colors.white),
+                label: Text(
+                  'Tambah',
                   style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Ubah warna button menjadi biru
+                  backgroundColor: Colors.blue[900],
                 ),
-              ),
-              SizedBox(height: 20.0),
-              Text(
-                'Data yang telah disimpan:',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              // Menampilkan data yang telah disimpan
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _listJadwalUjian.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text('Ujian ${index + 1}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: _listJadwalUjian[index].entries.map((entry) {
-                          return Text('${entry.key}: ${entry.value}');
-                        }).toList(),
-                      ),
-                    ),
-                  );
-                },
               ),
             ],
           ),
@@ -236,7 +251,8 @@ class _UjianPageState extends State<UjianPage> {
     if (picked != null)
       setState(() {
         _selectedDate = picked;
-        _tanggalUjianControllers[index].text = "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}";
+        _tanggalUjianControllers[index].text =
+            "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}";
       });
   }
 }

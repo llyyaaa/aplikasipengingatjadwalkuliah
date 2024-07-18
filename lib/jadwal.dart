@@ -19,15 +19,38 @@ class JadwalPage extends StatefulWidget {
   _JadwalPageState createState() => _JadwalPageState();
 }
 
-class _JadwalPageState extends State<JadwalPage> {
+class _JadwalPageState extends State<JadwalPage>
+    with SingleTickerProviderStateMixin {
   int _jumlahJadwal = 1;
   List<Widget> _formJadwal = [];
   List<Jadwal> _daftarJadwal = [];
+
+  late AnimationController _animationController;
+  late Animation<Color?> _animation;
+
+  
 
   @override
   void initState() {
     super.initState();
     _generateFormJadwal();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+    _animation = ColorTween(
+      begin: Colors.red,
+      end: Colors.purple,
+    ).animate(_animationController);
+
+    _animationController.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   void _generateFormJadwal() {
@@ -38,108 +61,99 @@ class _JadwalPageState extends State<JadwalPage> {
   }
 
   Widget _buildFormJadwal(int index) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.lightBlueAccent, Colors.white],
-        ),
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.calendar_today,
-                color: Colors.white,
-                size: 24.0,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Jadwal Kuliah ${index + 1}',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.indigo,
               ),
-              SizedBox(width: 10.0),
-              Text(
-                'Jadwal Kuliah ${index + 1}',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+            ),
+            SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(fontSize: 16),
+              decoration: InputDecoration(
+                labelText: 'Nama Mata Kuliah',
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(fontSize: 16),
+                prefixIcon: Icon(Icons.book, color: Colors.indigo),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.indigo),
                 ),
               ),
-            ],
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              labelText: 'Nama Mata Kuliah',
-              border: OutlineInputBorder(),
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
+              onChanged: (value) {
+                _daftarJadwal[index].namaMataKuliah = value;
+              },
             ),
-            onChanged: (value) {
-              _daftarJadwal[index].namaMataKuliah = value;
-            },
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              labelText: 'Jam Pelajaran',
-              border: OutlineInputBorder(),
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+            SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(fontSize: 16),
+              decoration: InputDecoration(
+                labelText: 'Jam Pelajaran',
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(fontSize: 16),
+                prefixIcon: Icon(Icons.access_time, color: Colors.indigo),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.indigo),
+                ),
               ),
+              onChanged: (value) {
+                _daftarJadwal[index].jamPelajaran = value;
+              },
             ),
-            onChanged: (value) {
-              _daftarJadwal[index].jamPelajaran = value;
-            },
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              labelText: 'Ruangan',
-              border: OutlineInputBorder(),
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+            SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(fontSize: 16),
+              decoration: InputDecoration(
+                labelText: 'Ruangan',
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(fontSize: 16),
+                prefixIcon: Icon(Icons.room, color: Colors.indigo),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.indigo),
+                ),
               ),
+              onChanged: (value) {
+                _daftarJadwal[index].ruangan = value;
+              },
             ),
-            onChanged: (value) {
-              _daftarJadwal[index].ruangan = value;
-            },
-          ),
-          SizedBox(height: 10.0),
-          TextFormField(
-            style: TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              labelText: 'Nama Dosen',
-              border: OutlineInputBorder(),
-              labelStyle: TextStyle(color: Colors.white),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+            SizedBox(height: 10),
+            TextFormField(
+              style: TextStyle(fontSize: 16),
+              decoration: InputDecoration(
+                labelText: 'Nama Dosen',
+                border: OutlineInputBorder(),
+                labelStyle: TextStyle(fontSize: 16),
+                prefixIcon: Icon(Icons.person, color: Colors.indigo),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.indigo),
+                ),
               ),
+              onChanged: (value) {
+                _daftarJadwal[index].namaDosen = value;
+              },
             ),
-            onChanged: (value) {
-              _daftarJadwal[index].namaDosen = value;
-            },
-          ),
-          SizedBox(height: 20.0),
-        ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _navigateToOutputPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OutputPage(daftarJadwal: _daftarJadwal),
       ),
     );
   }
@@ -149,24 +163,28 @@ class _JadwalPageState extends State<JadwalPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Jadwal Kuliah'),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.indigo,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Masukkan Jumlah Jadwal Kuliah',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.lightBlueAccent,
+                color: Colors.indigo,
               ),
             ),
-            SizedBox(height: 10.0),
+            SizedBox(height: 10),
             TextFormField(
               keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.format_list_numbered, color: Colors.indigo),
+              ),
               onChanged: (value) {
                 setState(() {
                   _jumlahJadwal = int.tryParse(value) ?? 1;
@@ -183,114 +201,116 @@ class _JadwalPageState extends State<JadwalPage> {
                 });
               },
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 20),
             Text(
               'Isi Detail Jadwal Kuliah',
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.lightBlueAccent,
+                color: Colors.indigo,
               ),
             ),
-            SizedBox(height: 10.0),
+            SizedBox(height: 10),
             ..._formJadwal,
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _daftarJadwal.forEach((jadwal) {
-                    print('Nama Mata Kuliah : ${jadwal.namaMataKuliah}');
-                    print('Jam Pelajaran    : ${jadwal.jamPelajaran}');
-                    print('Ruangan          : ${jadwal.ruangan}');
-                    print('Nama Dosen       : ${jadwal.namaDosen}');
-                    print('===============================');
-                  });
-                });
-              },
-              child: Text(
-                'Insert',
-                style: TextStyle(color: Colors.white),
+            SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: _navigateToOutputPage,
+              icon: Icon(Icons.add, color: Colors.white),
+              label: Text(
+                'Tambah',
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.lightBlueAccent,
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                backgroundColor: Colors.indigo,
+                padding: EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              'Jadwal Kuliah',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.lightBlueAccent,
-              ),
-            ),
-            SizedBox(height: 10.0),
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.lightBlueAccent, Colors.white],
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.lightBlueAccent.withOpacity(0.3),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _daftarJadwal.length,
-                itemBuilder: (context, index) {
-                  final jadwal = _daftarJadwal[index];
-                  return Card(
-                    elevation: 3.0,
-                    color: Colors.lightBlueAccent,
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Jadwal Kuliah ${index + 1}',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          Text(
-                            'Nama Mata Kuliah : ${jadwal.namaMataKuliah}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            'Jam Pelajaran    : ${jadwal.jamPelajaran}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            'Ruangan          : ${jadwal.ruangan}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            'Nama Dosen       : ${jadwal.namaDosen}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class OutputPage extends StatelessWidget {
+  final List<Jadwal> daftarJadwal;
+
+  OutputPage({required this.daftarJadwal});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Jadwal Kuliah'),
+        backgroundColor: Colors.indigo,
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: DataTable(
+          columns: [
+            DataColumn(
+              label: Text('No', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              numeric: true,
+            ),
+            DataColumn(
+              label: Text('Mata Kuliah', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              tooltip: 'Nama Mata Kuliah',
+            ),
+            DataColumn(
+              label: Text('Jam', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              tooltip: 'Jam Pelajaran',
+            ),
+            DataColumn(
+              label: Text('Ruangan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              tooltip: 'Ruangan Kuliah',
+            ),
+            DataColumn(
+              label: Text('Dosen', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              tooltip: 'Nama Dosen',
+            ),
+          ],
+          rows: daftarJadwal.asMap().entries.map((entry) {
+            return DataRow(
+              cells: [
+                DataCell(
+                  Text('${entry.key + 1}', style: TextStyle(fontSize: 16)),
+                  showEditIcon: false,
+                ),
+                DataCell(
+                  Text(entry.value.namaMataKuliah, style: TextStyle(fontSize: 16)),
+                  showEditIcon: false,
+                ),
+                DataCell(
+                  Text(entry.value.jamPelajaran, style: TextStyle(fontSize: 16)),
+                  showEditIcon: false,
+                ),
+                DataCell(
+                  Text(entry.value.ruangan, style: TextStyle(fontSize: 16)),
+                  showEditIcon: false,
+                ),
+                DataCell(
+                  Row(
+                    children: [
+                      Text(entry.value.namaDosen, style: TextStyle(fontSize: 16)),
+                      SizedBox(width: 10),
+                      Icon(Icons.person, size: 18, color: Colors.indigo),
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: Icon(Icons.calendar_today, color: Colors.indigo),
+                        onPressed: () {
+                          // Add function to add to calendar
+                        },
+                      ),
+                    ],
+                  ),
+                  showEditIcon: false,
+                ),
+              ],
+            );
+          }).toList(),
         ),
       ),
     );

@@ -21,7 +21,7 @@ class _DaftarPageState extends State<DaftarPage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.blue, Colors.white],
+            colors: [Colors.blue.shade900, Colors.blue.shade300],
           ),
         ),
         child: Center(
@@ -32,12 +32,13 @@ class _DaftarPageState extends State<DaftarPage> {
                 Text(
                   'Buat Akun',
                   style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: 36.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    fontFamily: 'Pacifico',
                   ),
                 ),
-                SizedBox(height: 8.0),
+                SizedBox(height: 20.0),
                 Container(
                   width: 120.0,
                   height: 120.0,
@@ -55,13 +56,16 @@ class _DaftarPageState extends State<DaftarPage> {
                   ),
                   child: Icon(
                     Icons.account_circle,
-                    size: 60.0,
-                    color: Colors.blue,
+                    size: 80.0,
+                    color: Colors.blue.shade900,
                   ),
                 ),
                 SizedBox(height: 20.0),
                 Card(
                   elevation: 5.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
@@ -84,43 +88,50 @@ class _DaftarPageState extends State<DaftarPage> {
                           labelText: 'Password',
                         ),
                         SizedBox(height: 20.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Memeriksa apakah semua input tidak kosong sebelum mendaftar
-                            if (_namaController.text.isNotEmpty &&
-                                _emailController.text.isNotEmpty &&
-                                _passwordController.text.isNotEmpty) {
-                              // Lakukan proses pendaftaran di sini
-                              // Navigasi ke halaman jadwal setelah berhasil mendaftar
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => MenuPage()),
-                              );
-                            } else {
-                              // Tampilkan pesan jika ada input yang kosong
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Error"),
-                                    content: Text("Silakan lengkapi semua kolom."),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("OK"),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
-                          },
-                          child: Text('Daftar'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Memeriksa apakah semua input tidak kosong sebelum mendaftar
+                              if (_namaController.text.isNotEmpty &&
+                                  _emailController.text.isNotEmpty &&
+                                  _passwordController.text.isNotEmpty) {
+                                // Lakukan proses pendaftaran di sini
+                                // Navigasi ke halaman jadwal setelah berhasil mendaftar
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MenuPage()),
+                                );
+                              } else {
+                                // Tampilkan pesan jika ada input yang kosong
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Error"),
+                                      content: Text("Silakan lengkapi semua kolom."),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("OK"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            child: Text('Daftar'),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 16.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              backgroundColor: Colors.blue.shade900,
+                              foregroundColor: Colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -135,7 +146,10 @@ class _DaftarPageState extends State<DaftarPage> {
                   },
                   child: Text('Sudah Punya Akun? Login'),
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.blue,
+                    foregroundColor: Colors.white, textStyle: TextStyle(
+                      fontSize: 16.0,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
@@ -155,8 +169,11 @@ class _DaftarPageState extends State<DaftarPage> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        prefixIcon: Icon(icon),
-        border: OutlineInputBorder(),
+        labelStyle: TextStyle(color: Colors.blue.shade900),
+        prefixIcon: Icon(icon, color: Colors.blue.shade900),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
       ),
     );
   }
@@ -169,16 +186,22 @@ class _DaftarPageState extends State<DaftarPage> {
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        prefixIcon: Icon(Icons.lock),
+        labelStyle: TextStyle(color: Colors.blue.shade900),
+        prefixIcon: Icon(Icons.lock, color: Colors.blue.shade900),
         suffixIcon: IconButton(
-          icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+          icon: Icon(
+            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            color: Colors.blue.shade900,
+          ),
           onPressed: () {
             setState(() {
               _isPasswordVisible = !_isPasswordVisible;
             });
           },
         ),
-        border: OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
       ),
       obscureText: !_isPasswordVisible,
     );

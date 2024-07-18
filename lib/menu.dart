@@ -11,174 +11,90 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Menu'),
-        backgroundColor: Colors.blue, // Ubah warna app bar menjadi biru
+        backgroundColor: Colors.indigo[900], // Background color: dark blue
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue, Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.5, 1.0],
-            tileMode: TileMode.clamp,
-          ),
+          color: Colors.indigo[900], // Background color: dark blue
         ),
         child: Center(
-          child: Row(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              children: [
+                _buildMenuButton(
+                  context,
+                  title: 'Jadwal',
+                  icon: Icons.calendar_today,
+                  color: Colors.blue[700]!,
+                  page: JadwalPage(),
+                ),
+                _buildMenuButton(
+                  context,
+                  title: 'Deadline Tugas',
+                  icon: Icons.assignment_turned_in,
+                  color: Colors.blue[700]!,
+                  page: DeadlineTugasPage(),
+                ),
+                _buildMenuButton(
+                  context,
+                  title: 'Ujian',
+                  icon: Icons.event_note,
+                  color: Colors.blue[700]!,
+                  page: UjianPage(),
+                ),
+                _buildMenuButton(
+                  context,
+                  title: 'Keg. Akademis',
+                  icon: Icons.school,
+                  color: Colors.blue[700]!,
+                  page: AcademicActivityPage(),
+                ),
+                _buildMenuButton(
+                  context,
+                  title: 'Kalender',
+                  icon: Icons.date_range,
+                  color: Colors.blue[700]!,
+                  page: KalenderPage(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuButton(BuildContext context,
+      {required String title, required IconData icon, required Color color, required Widget page}) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        transform: Matrix4.translationValues(0, -8, 0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+          },
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.all(20), backgroundColor: color,
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Tombol Jadwal
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => JadwalPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.pink,
-                    elevation: 0, // Remove elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.calendar_today, size: 50, color: Colors.white),
-                      SizedBox(height: 10),
-                      Text(
-                        'Jadwal',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-
-              // Tombol Deadline Tugas
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DeadlineTugasPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.orange,
-                    elevation: 0, // Remove elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.assignment_turned_in, size: 50, color: Colors.white),
-                      SizedBox(height: 10),
-                      Text(
-                        'Deadline Tugas',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-
-              // Tombol Ujian
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UjianPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.green,
-                    elevation: 0, // Remove elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.event_note, size: 50, color: Colors.white),
-                      SizedBox(height: 10),
-                      Text(
-                        'Ujian',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-
-              // Tombol Kegiatan Akademis
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AcademicActivityPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.purple,
-                    elevation: 0, // Remove elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.school, size: 50, color: Colors.white),
-                      SizedBox(height: 10),
-                      Text(
-                        'Keg. Akademis',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-
-              // Tombol Kalender
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => KalenderPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.red,
-                    elevation: 0, // Remove elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.date_range, size: 50, color: Colors.white),
-                      SizedBox(height: 10),
-                      Text(
-                        'Kalender',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
+              Icon(icon, size: 50, color: Colors.white),
+              SizedBox(height: 10),
+              Text(
+                title,
+                style: TextStyle(fontSize: 20, color: Colors.white),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -186,4 +102,10 @@ class MenuPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: MenuPage(),
+  ));
 }

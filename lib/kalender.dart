@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:uts_aplikasipengingatjadwalkuliah/sample/utils.dart';
 
 class KalenderPage extends StatefulWidget {
   @override
@@ -10,7 +11,10 @@ class _KalenderPageState extends State<KalenderPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return kEvents[day] ?? [];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,8 @@ class _KalenderPageState extends State<KalenderPage> {
       ),
       body: Column(
         children: [
-          TableCalendar(
+          TableCalendar<Event>(
+            eventLoader: _getEventsForDay,
             firstDay: DateTime.utc(2020, 1, 1),
             lastDay: DateTime.utc(2030, 12, 31),
             focusedDay: _focusedDay,
